@@ -1,0 +1,9 @@
+# Refract — UI Referent Extraction Guardrails
+
+When extracting design tokens or UI ontologies from a live referent:
+
+1. **Evidence first**: Never fabricate hex codes, font stacks, spacing values, shadows, or component behaviors. Anchor every emitted token and ontology node to measured values in `raw/capture.json`, CSS stylesheets, or DOM/ARIA snapshots. Mark any visually inferred properties explicitly as `inferred`.
+2. **Three-tier token hierarchy**: Organize design tokens strictly into `primitive` (raw values), `semantic` (role-mapped aliases like `surface.canvas`, `text.primary`, `accent.primary`), and `component` (component-scoped bindings) using W3C DTCG format (`$type`, `$value`, `$description`, `{alias.path}`).
+3. **Separate appearance from structure**: Design tokens describe visual styling (`tokens.dtcg.json`, `tokens.css`, Tailwind themes). UI ontology (`ui-ontology.yaml`, `ui-ontology.json`) describes structural grammar: regions, surfaces, component archetypes, slot anatomy, variants, state machines, composition rules, and verifiable invariants.
+4. **Preserve light/dark and responsive truth**: Record measured light vs. dark mode overrides and desktop vs. mobile layout shifts instead of extrapolating missing themes.
+5. **Validate before finishing**: Always run `validate-artifacts.mjs` against the output directory and resolve all schema, alias, or syntax errors before presenting extracted artifacts to the user.

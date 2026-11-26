@@ -1,0 +1,30 @@
+name: Feature Request
+description: Suggest a new extraction heuristic, output format, or UI ontology capability
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Browser Probe / Capture
+        - Design Token Compilation (DTCG / CSS / Tailwind)
+        - UI Ontology & Invariants
+        - DESIGN.md & Audit Skills
+        - Claude Code / Antigravity Integration
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Use Case
+      description: What referent pattern or output requirement is currently missing?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Describe the expected artifact schema, CLI option, or heuristic.

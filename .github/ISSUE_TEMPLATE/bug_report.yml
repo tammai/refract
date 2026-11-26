@@ -1,0 +1,45 @@
+name: Bug Report
+description: Report a capture failure, token compilation issue, or plugin validation error
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Which environment were you running Refract in?
+      options:
+        - Claude Code
+        - Antigravity
+        - Standalone CLI (Node.js)
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Environment Versions
+      description: Output of `node -v`, `playwright-cli --version`, and `claude --version` or `agy --version`
+      placeholder: "Node v22.12.0, playwright-cli 0.1.25, Claude Code 2.1.x"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Command run, referent URL (or minimal HTML fixture), and flags used.
+      placeholder: |
+        node skills/extract-referent/scripts/capture-referent.mjs https://example.com --out ./out --compile
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Output / Validation Logs
+      render: text

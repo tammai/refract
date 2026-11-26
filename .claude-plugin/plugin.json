@@ -1,0 +1,26 @@
+{
+  "name": "refract",
+  "version": "0.1.0",
+  "description": "Extract W3C design tokens, CSS variables, Tailwind themes, structured UI ontologies, and agent-ready DESIGN.md specs from live website referents.",
+  "author": {
+    "name": "Tam Mai",
+    "url": "https://github.com/tammai"
+  },
+  "homepage": "https://github.com/tammai/refract",
+  "repository": "https://github.com/tammai/refract",
+  "license": "MIT",
+  "keywords": [
+    "refract",
+    "design-tokens",
+    "dtcg",
+    "ui-ontology",
+    "design-system",
+    "tailwind",
+    "css",
+    "playwright",
+    "design-engineering",
+    "wcag",
+    "accessibility",
+    "agent-skills"
+  ]
+}

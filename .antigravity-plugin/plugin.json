@@ -1,0 +1,34 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "refract",
+  "displayName": "Refract",
+  "version": "0.1.0",
+  "description": "Extract W3C design tokens, CSS variables, Tailwind themes, structured UI ontologies, and agent-ready DESIGN.md specs from live website referents.",
+  "logo": "assets/logo.svg",
+  "author": {
+    "name": "Tam Mai",
+    "url": "https://github.com/tammai"
+  },
+  "homepage": "https://github.com/tammai/refract",
+  "repository": "https://github.com/tammai/refract",
+  "suggestedPrompts": [
+    "Extract design tokens and UI ontology from https://example.com",
+    "Capture desktop, mobile, light, and dark themes from a reference URL and generate DESIGN.md",
+    "Audit and compare the UI ontology and token system of two live reference websites"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "refract",
+    "design-tokens",
+    "dtcg",
+    "ui-ontology",
+    "design-system",
+    "tailwind",
+    "css",
+    "playwright",
+    "design-engineering",
+    "wcag",
+    "accessibility",
+    "agent-skills"
+  ]
+}

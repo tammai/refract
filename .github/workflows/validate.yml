@@ -1,0 +1,114 @@
+name: Validate Plugin & Scripts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check script syntax and executable permissions
+        run: |
+          for f in skills/extract-referent/scripts/*.js skills/extract-referent/scripts/*.mjs; do
+            echo "Checking $f"
+            node --check "$f"
+            test -x "$f" || { echo "Missing executable permission on $f"; exit 1; }
+          done
+
+      - name: Validate plugin manifests and skill frontmatter
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const agy = JSON.parse(fs.readFileSync(".antigravity-plugin/plugin.json", "utf8"));
+            const claude = JSON.parse(fs.readFileSync(".claude-plugin/plugin.json", "utf8"));
+            if (agy.name !== "refract" || claude.name !== "refract") {
+              throw new Error("Manifest name mismatch");
+            }
+            if (!fs.existsSync(agy.logo)) {
+              throw new Error("Missing Antigravity logo: " + agy.logo);
+            }
+            console.log("Manifests OK:", agy.name, agy.version);
+          '
+
+      - name: Smoke test compile-artifacts.mjs and validate-artifacts.mjs
+        run: |
+          mkdir -p /tmp/refract-ci/raw
+          cat > /tmp/refract-ci/raw/capture.json <<'EOF'
+          {
+            "schemaVersion": "1.0.0",
+            "capturedAt": "2026-11-26T00:00:00.000Z",
+            "url": "https://example.com",
+            "primaryState": "desktop-light",
+            "states": {
+              "desktop-light": {
+                "viewport": { "name": "desktop", "width": 1440, "height": 900 },
+                "mode": "light",
+                "meta": {
+                  "url": "https://example.com",
+                  "title": "CI Fixture",
+                  "lang": "en",
+                  "viewport": { "width": 1440, "height": 900, "devicePixelRatio": 1 },
+                  "documentWidth": 1440,
+                  "documentHeight": 1200,
+                  "prefersColorScheme": "light"
+                },
+                "stylesheets": {
+                  "customProperties": [
+                    { "selector": ":root", "media": null, "name": "--brand-primary", "value": "#2563eb" }
+                  ],
+                  "fontFaces": [],
+                  "breakpoints": ["(max-width: 768px)"],
+                  "keyframes": [],
+                  "crossOriginStylesheetsSkipped": 0
+                },
+                "computed": {
+                  "elementsSampled": 20,
+                  "colors": [
+                    { "hex": "#ffffff", "role": "background", "count": 5, "totalArea": 1200000, "selectors": ["body"], "pairedBgs": {} },
+                    { "hex": "#0f172a", "role": "text", "count": 8, "totalArea": 50000, "selectors": ["p"], "pairedBgs": { "#ffffff": 8 } },
+                    { "hex": "#2563eb", "role": "accentCandidate", "count": 2, "totalArea": 4000, "selectors": ["button"], "pairedBgs": {} }
+                  ],
+                  "typography": [
+                    { "fontFamily": "Inter, sans-serif", "fontSize": "16px", "fontWeight": "400", "lineHeight": "24px", "letterSpacing": "normal", "textTransform": "none", "count": 8, "tags": { "p": 8 }, "sampleText": "Sample body copy" },
+                    { "fontFamily": "Inter, sans-serif", "fontSize": "36px", "fontWeight": "700", "lineHeight": "44px", "letterSpacing": "-0.02em", "textTransform": "none", "count": 1, "tags": { "h1": 1 }, "sampleText": "Hero Heading" }
+                  ],
+                  "spacing": { "padding": { "16px": 4, "24px": 2 }, "gap": { "16px": 2 }, "margin": {}, "maxWidth": { "1120px": 1 } },
+                  "radii": { "8px": 3 },
+                  "borderWidths": { "1px": 2 },
+                  "shadows": {},
+                  "backdropFilters": {},
+                  "zIndices": [],
+                  "motion": { "durations": { "0.15s": 2 }, "easings": { "ease": 2 }, "properties": { "background-color": 2 } }
+                },
+                "ontologyRaw": {
+                  "regions": [
+                    { "tag": "header", "role": "banner", "ariaLabel": null, "positioning": "sticky", "display": "flex", "box": { "x": 0, "y": 0, "width": 1440, "height": 64 }, "bg": "#ffffff", "childCount": 2, "selector": "header" },
+                    { "tag": "main", "role": "main", "ariaLabel": null, "positioning": "static", "display": "block", "box": { "x": 160, "y": 64, "width": 1120, "height": 800 }, "bg": null, "childCount": 2, "selector": "main" }
+                  ],
+                  "components": [
+                    { "archetype": "button", "instances": 2, "signature": { "background": "#2563eb", "color": "#ffffff", "border": "none", "radius": "8px", "padding": "12px 20px", "shadow": "none", "fontSize": "15px", "fontWeight": "600", "display": "inline-block" }, "slots": ["label"], "parentTags": ["main"], "childTags": [], "ariaStates": [], "sampleSelector": "button", "sampleText": "Get Started" }
+                  ],
+                  "headings": [{ "level": 1, "tag": "h1", "text": "Hero Heading", "fontSize": "36px", "fontWeight": "700" }],
+                  "mediaAndIcons": { "svgCount": 0, "svgSizes": {}, "imgCount": 0, "imgAspectRatios": [] },
+                  "touchTargets": { "totalChecked": 2, "under44pxCount": 0, "samples": [] },
+                  "probeTargets": []
+                },
+                "interactionProbes": []
+              }
+            }
+          }
+          EOF
+          node skills/extract-referent/scripts/compile-artifacts.mjs /tmp/refract-ci/raw/capture.json --out /tmp/refract-ci
+          node skills/extract-referent/scripts/validate-artifacts.mjs /tmp/refract-ci
+          rm -rf /tmp/refract-ci
