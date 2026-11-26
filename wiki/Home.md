@@ -48,9 +48,9 @@ flowchart LR
 
 | Page | Description |
 | --- | --- |
-| [Installation & Provider Setup](Installation-and-Provider-Setup.md) | Prerequisites, support matrix, and setup for Claude Code, Antigravity, Codex, Cursor, and CLI |
-| [Extraction Workflow](Extraction-Workflow.md) | Five-stage capture/refine/validate workflow, CLI flags, and two-referent Diff Mode |
-| [Design Tokens & Output Formats](Design-Tokens-and-Output-Formats.md) | Complete schemas and integration examples for all 7 output artifacts and `raw/` captures |
-| [Architecture & Heuristics](Architecture-and-Heuristics.md) | Browser probe internals, color clustering, WCAG pairing, scale inference, and plugin isolation |
-| [Troubleshooting & FAQ](Troubleshooting-and-FAQ.md) | Solutions for `PATH`, SPA hydration, CORS stylesheets, dark-mode toggles, provider setup, and FAQ |
-| [Contributing & Publishing](Contributing-and-Publishing.md) | Development rules, strict validation commands, marketplace packaging, and wiki publishing |
+| [Installation & Provider Setup](Installation-and-Provider-Setup) | Prerequisites, support matrix, and setup for Claude Code, Antigravity, Codex, Cursor, and CLI |
+| [Extraction Workflow](Extraction-Workflow) | Five-stage capture/refine/validate workflow, CLI flags, and two-referent Diff Mode |
+| [Design Tokens & Output Formats](Design-Tokens-and-Output-Formats) | Complete schemas and integration examples for all 7 output artifacts and `raw/` captures |
+| [Architecture & Heuristics](Architecture-and-Heuristics) | Browser probe internals, color clustering, WCAG pairing, scale inference, and plugin isolation |
+| [Troubleshooting & FAQ](Troubleshooting-and-FAQ) | Solutions for `PATH`, SPA hydration, CORS stylesheets, dark-mode toggles, provider setup, and FAQ |
+| [Contributing & Publishing](Contributing-and-Publishing) | Development rules, strict validation commands, marketplace packaging, and wiki publishing |

@@ -1,21 +1,21 @@
 ### Overview
 
-- [Home](Home.md)
-- [Installation & Provider Setup](Installation-and-Provider-Setup.md)
+- [Home](Home)
+- [Installation & Provider Setup](Installation-and-Provider-Setup)
 
 ### Guides
 
-- [Extraction Workflow](Extraction-Workflow.md)
-- [Troubleshooting & FAQ](Troubleshooting-and-FAQ.md)
+- [Extraction Workflow](Extraction-Workflow)
+- [Troubleshooting & FAQ](Troubleshooting-and-FAQ)
 
 ### Reference
 
-- [Design Tokens & Output Formats](Design-Tokens-and-Output-Formats.md)
-- [Architecture & Heuristics](Architecture-and-Heuristics.md)
+- [Design Tokens & Output Formats](Design-Tokens-and-Output-Formats)
+- [Architecture & Heuristics](Architecture-and-Heuristics)
 
 ### Community
 
-- [Contributing & Publishing](Contributing-and-Publishing.md)
+- [Contributing & Publishing](Contributing-and-Publishing)
 
 ---
 

@@ -152,7 +152,7 @@ Every run produces raw multi-state captures in `raw/` plus **7 validated artifac
 - [**Output Formats**](docs/output-formats.md) — Detailed reference and integration snippets for all 7 output artifacts
 - [**Troubleshooting**](docs/troubleshooting.md) — Resolving `PATH`, SPA hydration delays, CORS stylesheets, and alias checks
 - [**GitHub SEO & Launch Guide**](docs/github-seo.md) — Repository topics, About description, `social-preview.svg`, and marketplace checklist
-- [**Wiki**](wiki/Home.md) — Complete multi-page knowledge base (also publishable to [GitHub Wiki](https://github.com/tammai/refract/wiki))
+- [**Wiki**](https://github.com/tammai/refract/wiki) — Complete multi-page knowledge base (source in [`wiki/`](wiki/))
 
 ---
 

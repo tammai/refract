@@ -119,4 +119,4 @@ node skills/extract-referent/scripts/compile-artifacts.mjs ./referent-output/raw
 node skills/extract-referent/scripts/validate-artifacts.mjs ./referent-output
 ```
 
-See [Extraction Workflow](Extraction-Workflow.md) for all flags and refinement steps.
+See [Extraction Workflow](Extraction-Workflow) for all flags and refinement steps.
