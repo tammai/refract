@@ -95,4 +95,11 @@ Captures the structural grammar of the referent separately from its visual styli
 
 ## 6. `DESIGN.md`
 
-An agent-ready markdown specification summarizing the referent's visual identity, color & contrast tables, typography ramp, layout & responsive shifts, component slot & state signatures, concrete **DO / DON'T** rules, and a verification checklist. Drop it into a project root or reference it when prompting Claude Code or Antigravity to build matching UI.
+An agent-ready markdown specification summarizing the referent's visual identity, color & contrast tables, typography ramp, layout & responsive shifts, component slot & state signatures, concrete **DO / DON'T** rules, and a verification checklist. Drop it into a project root or reference it when prompting Claude Code, Antigravity, Codex, or Cursor to build matching UI.
+
+### Wiring `DESIGN.md` Into Your Coding Agent
+
+- **Claude Code**: Reference `@DESIGN.md` in `CLAUDE.md` or directly in chat prompts when building components.
+- **Antigravity**: Copy or distill rules into `.agents/rules/design-system.md`, or reference `DESIGN.md` in your workspace prompt.
+- **Codex**: Reference `DESIGN.md` from your project's root `AGENTS.md` instructions.
+- **Cursor**: Convert or reference `DESIGN.md` inside `.cursor/rules/design-system.mdc` (using `alwaysApply: false` and relevant `globs` such as `src/components/**/*`).

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://cursor.com/schemas/cursor-plugin/plugin.json",
+  "name": "refract",
+  "displayName": "Refract",
+  "version": "0.2.0",
+  "description": "Extract W3C design tokens, CSS variables, Tailwind themes, structured UI ontologies, and agent-ready DESIGN.md specs from live website referents.",
+  "author": {
+    "name": "Tam Mai",
+    "url": "https://github.com/tammai"
+  },
+  "homepage": "https://github.com/tammai/refract",
+  "repository": "https://github.com/tammai/refract",
+  "license": "MIT",
+  "keywords": [
+    "refract",
+    "design-tokens",
+    "dtcg",
+    "ui-ontology",
+    "design-system",
+    "tailwind",
+    "css",
+    "playwright",
+    "design-engineering",
+    "wcag",
+    "accessibility",
+    "agent-skills"
+  ],
+  "logo": "assets/logo.svg",
+  "rules": ".cursor/rules/refract-guardrails.mdc",
+  "skills": "skills/",
+  "agents": "agents/"
+}

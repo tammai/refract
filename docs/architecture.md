@@ -52,19 +52,33 @@ Verifies every generated file before completion:
 - Required top-level keys and component schemas in `ui-ontology.json` and `ui-ontology.yaml`
 - Required sections and zero unresolved `{{...}}` placeholders in `DESIGN.md`
 
-## Dual-Provider Plugin Layout
+## Multi-Provider Plugin Layout
 
-Refract supports both **Claude Code** and **Antigravity** from a single repository:
+Refract supports **Claude Code**, **Antigravity**, **Codex**, and **Cursor** from a single repository:
 
 ```text
 refract/
-├── .claude-plugin/plugin.json       # Claude Code manifest
-├── .antigravity-plugin/plugin.json  # Antigravity manifest
-├── agents/referent-analyst.md       # Shared custom agent / subagent
-├── rules/AGENTS.md                  # Antigravity always-on rules
+├── .claude-plugin/plugin.json            # Claude Code manifest
+├── .antigravity-plugin/plugin.json       # Antigravity manifest
+├── .codex-plugin/plugin.json             # OpenAI Codex manifest
+├── .cursor-plugin/plugin.json            # Cursor manifest
+├── .cursor/rules/refract-guardrails.mdc  # Cursor intelligent rule (.mdc)
+├── agents/referent-analyst.md            # Shared custom agent / subagent
+├── rules/AGENTS.md                       # Antigravity always-on rules
 ├── skills/
-│   ├── extract-referent/            # Capture + compile + validate skill & scripts
-│   └── audit-ui-ontology/           # Audit, diff, and DESIGN.md skill
-├── assets/                          # Logo + GitHub social preview
-└── docs/                            # Guides and GitHub SEO checklist
+│   ├── extract-referent/                 # Capture + compile + validate skill & scripts
+│   └── audit-ui-ontology/                # Audit, diff, and DESIGN.md skill
+├── assets/                               # Logo + GitHub social preview
+└── docs/                                 # Guides and GitHub SEO checklist
 ```
+
+### Component Discovery by Provider
+
+| Provider | Manifest | Skills | Agents | Rules & Isolation |
+| --- | --- | --- | --- | --- |
+| **Claude Code** | `.claude-plugin/plugin.json` | Auto-discovers `skills/` | Auto-discovers `agents/referent-analyst.md` | Does not mount Antigravity `rules/AGENTS.md` |
+| **Antigravity** | `.antigravity-plugin/plugin.json` | Auto-discovers `skills/` | Auto-discovers `agents/referent-analyst.md` | Loads `rules/AGENTS.md` (always-on); ignores `.cursor/` |
+| **Codex** | `.codex-plugin/plugin.json` | Explicit `"skills": "./skills/"` | Uses skills directly | No root `.agents/` directory in repo to avoid Antigravity conflict |
+| **Cursor** | `.cursor-plugin/plugin.json` | Explicit `"skills": "skills/"` | Explicit `"agents": "agents/"` | Explicit `"rules": ".cursor/rules/refract-guardrails.mdc"` overrides Cursor's default `rules/` scan so it does not also ingest `rules/AGENTS.md` |
+
+No root `plugin.json` or `.agents/` folder is kept at the repository root so each provider's strict validator and discovery root stays completely isolated.

@@ -2,7 +2,7 @@
   "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "refract",
   "displayName": "Refract",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Extract W3C design tokens, CSS variables, Tailwind themes, structured UI ontologies, and agent-ready DESIGN.md specs from live website referents.",
   "logo": "assets/logo.svg",
   "author": {

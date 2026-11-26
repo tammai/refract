@@ -22,7 +22,7 @@ Use this skill when working with an already-captured referent directory (`<out-d
 Read the target files in `<out-dir>`:
 1. `ui-ontology.json` / `ui-ontology.yaml` — verify conformance with [ontology-schema.md](references/ontology-schema.md).
 2. `tokens.dtcg.json` — verify three-tier aliasing (`primitive` -> `semantic` -> `component`) and `modes.dark`.
-3. `raw/*.png` and `raw/*.snapshot.yaml` — cross-check structural claims against actual rendered screenshots and ARIA landmarks using your file-reading tool (`Read` in Claude Code / `read_file` in Antigravity).
+3. `raw/*.png` and `raw/*.snapshot.yaml` — cross-check structural claims against actual rendered screenshots and ARIA landmarks using your file-reading tool (`Read` in Claude Code / Cursor, `read_file` in Antigravity, or your agent's file/image viewer in Codex).
 4. `DESIGN.md` — verify completeness against [design-md-template.md](references/design-md-template.md).
 
 Check these core invariants:
@@ -42,7 +42,7 @@ When asked to compare two captured referent directories (`<dir-a>` and `<dir-b>`
 
 ## 3. Generate Coding-Agent Reproduction Rules
 
-When asked to turn a capture into project rules (`DESIGN.md` or `.agents/rules/design-system.md`):
+When asked to turn a capture into project rules (`DESIGN.md`, `AGENTS.md`, `.agents/rules/design-system.md`, or `.cursor/rules/design-system.mdc`):
 - Populate every section of [design-md-template.md](references/design-md-template.md) with concrete measured values and token names.
 - Include explicit **DO** and **DON'T** rules that prevent common LLM drift (wrong font weights, over-rounded corners, generic Tailwind colors replacing referent tokens, missing dark-mode pairs).
 - Run `validate-artifacts.mjs` after any edits:

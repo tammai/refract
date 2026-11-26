@@ -12,7 +12,7 @@ body:
         - Design Token Compilation (DTCG / CSS / Tailwind)
         - UI Ontology & Invariants
         - DESIGN.md & Audit Skills
-        - Claude Code / Antigravity Integration
+        - Plugin Integration (Claude Code / Antigravity / Codex / Cursor)
         - Documentation
     validations:
       required: true

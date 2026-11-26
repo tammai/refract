@@ -61,3 +61,47 @@ node skills/extract-referent/scripts/validate-artifacts.mjs <out-dir>
 **Symptom**: `playwright-cli open <url>` times out or lands on an anti-bot interstitial.
 
 **Fix**: Verify the URL loads cleanly in a normal browser without authentication walls or anti-bot gates. Refract does not bypass CAPTCHAs or anti-bot challenges. For authenticated internal apps, open the site and save storage state with `playwright-cli state-save` only in trusted local environments (never commit saved state).
+
+---
+
+## Codex Skills Not Appearing (`$extract-referent`)
+
+**Symptom**: Codex does not list `$extract-referent` or `$audit-ui-ontology` after installing or symlinking.
+
+**Fix**:
+- If using local symlinks, confirm both `~/.agents/skills/extract-referent/SKILL.md` (or `.agents/skills/...`) resolve to real files without broken symlinks, and restart Codex so it re-indexes skills.
+- If using a Codex marketplace repository, restart Codex or open a fresh session after editing `.agents/plugins/marketplace.json`.
+- Verify `.codex-plugin/plugin.json` keeps `interface.shortDescription` at `<= 30` characters, `interface.defaultPrompt` with 1–3 entries, and relative `./` paths for `skills`, `interface.logo`, and `interface.composerIcon`.
+
+---
+
+## Cursor Rules or Plugin Not Activating
+
+**Symptom**: Cursor does not apply `refract-guardrails.mdc` or discover the plugin's skills/agent.
+
+**Fix**:
+- Verify `.cursor-plugin/plugin.json` sets `"rules": ".cursor/rules/refract-guardrails.mdc"` explicitly (this overrides Cursor's default `rules/` folder scan so it does not double-load `rules/AGENTS.md`).
+- Confirm `.cursor/rules/refract-guardrails.mdc` begins with valid YAML frontmatter containing `description:` and `alwaysApply:` (`true` or `false`).
+- For workspace-local setups without the plugin installed, copy `.cursor/rules/refract-guardrails.mdc` into your project's `.cursor/rules/` folder and `skills/` into `.cursor/skills/` (or `.agents/skills/`).
+
+---
+
+## Multi-Provider Validation Failures
+
+**Symptom**: CI or local validation fails on one of the four provider manifests or rules.
+
+**Fix**: Run all three validation checks locally from the repository root:
+
+```bash
+claude plugin validate --strict .
+claude plugin validate --strict --profile directory .
+agy plugin validate --strict .
+node -e '
+  const fs = require("node:fs");
+  for (const p of [".antigravity-plugin/plugin.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".cursor-plugin/plugin.json"]) {
+    const m = JSON.parse(fs.readFileSync(p, "utf8"));
+    if (m.name !== "refract") throw new Error("Unexpected name in " + p);
+  }
+  console.log("All 4 provider manifests OK");
+'
+```

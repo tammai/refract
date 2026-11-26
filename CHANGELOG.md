@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-26
+
+### Added
+- OpenAI Codex plugin support via `.codex-plugin/plugin.json` (with `skills` mapping and marketplace `interface` metadata).
+- Cursor plugin support via `.cursor-plugin/plugin.json` and `.cursor/rules/refract-guardrails.mdc` (Cursor intelligent rule frontmatter).
+- Multi-provider manifest and `.mdc` frontmatter checks in `.github/workflows/validate.yml`, plus updated multi-provider docs, guides, issue templates, and validation checklist for Claude Code, Antigravity, Codex, and Cursor.
+- Complete GitHub Wiki knowledge base under `wiki/` (`_Sidebar.md`, `_Footer.md`, `Home.md`, `Installation-and-Provider-Setup.md`, `Extraction-Workflow.md`, `Design-Tokens-and-Output-Formats.md`, `Architecture-and-Heuristics.md`, `Troubleshooting-and-FAQ.md`, `Contributing-and-Publishing.md`).
+
+### Fixed
+- Wrapped all shields.io badges in `README.md` with section anchors and explicit `height="20"` so badges render inline at normal pill size in local Markdown previewers as well as GitHub.
+
 ## [0.1.0] - 2026-11-26
 
 ### Added

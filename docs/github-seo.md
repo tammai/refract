@@ -1,6 +1,6 @@
 # GitHub SEO, Social Preview & Marketplace Launch Guide
 
-Use this checklist when publishing **Refract** to GitHub, the Claude Code Marketplace, and the Antigravity Marketplace.
+Use this checklist when publishing **Refract** to GitHub and the Claude Code, Antigravity, Codex, and Cursor marketplaces.
 
 ---
 
@@ -8,7 +8,7 @@ Use this checklist when publishing **Refract** to GitHub, the Claude Code Market
 
 Paste into GitHub **Settings → General / About**:
 
-> Extract W3C design tokens, CSS vars, Tailwind v4/v3 themes, UI ontologies & DESIGN.md from live websites — for Claude Code & Antigravity.
+> Extract W3C design tokens, CSS vars, Tailwind v4/v3 themes, UI ontologies & DESIGN.md from live sites — for Claude Code, Antigravity, Codex & Cursor.
 
 ---
 
@@ -19,6 +19,8 @@ Paste into GitHub **About → Topics**:
 ```text
 claude-code-plugin
 antigravity-plugin
+codex-plugin
+cursor-plugin
 design-tokens
 dtcg
 ui-ontology
@@ -34,8 +36,6 @@ design-engineering
 reverse-engineering
 frontend-tools
 ui-architecture
-color-tokens
-typography
 developer-tools
 ```
 
@@ -59,9 +59,11 @@ rsvg-convert -w 1280 -h 640 assets/social-preview.svg -o assets/social-preview.p
 Configured for `https://github.com/tammai/refract`:
 
 1. `README.md` and `docs/getting-started.md` reference `tammai/refract`.
-2. Both manifests include `"homepage"` and `"repository"` pointing to `https://github.com/tammai/refract`:
+2. All four provider manifests include `"homepage"` and `"repository"` pointing to `https://github.com/tammai/refract`:
    - `.claude-plugin/plugin.json`
    - `.antigravity-plugin/plugin.json`
+   - `.codex-plugin/plugin.json`
+   - `.cursor-plugin/plugin.json`
 
 ---
 
@@ -98,16 +100,56 @@ agy plugin validate --strict .
 
 Ensure `.antigravity-plugin/plugin.json` includes `name`, `displayName`, `description`, `version`, `logo` (`assets/logo.svg`), `suggestedPrompts` (3 items), `author`, `homepage`, and `repository`.
 
+### Codex Marketplace (`.agents/plugins/marketplace.json` snippet)
+
+If hosting Refract inside a Codex marketplace repository (where the plugin directory lives at e.g. `./plugins/refract`), include an entry like:
+
+```json
+{
+  "name": "refract",
+  "source": {
+    "source": "local",
+    "path": "./plugins/refract"
+  },
+  "policy": {
+    "installation": "AVAILABLE",
+    "authentication": "ON_INSTALL"
+  },
+  "category": "Developer Tools"
+}
+```
+
+Ensure `.codex-plugin/plugin.json` keeps `interface.shortDescription` at `<= 30` characters, `interface.defaultPrompt` with 1–3 prompts, and relative `./` paths for `skills`, `interface.logo`, and `interface.composerIcon`.
+
+### Cursor Marketplace
+
+Ensure `.cursor-plugin/plugin.json` includes `name`, `displayName`, `description`, `version`, `logo` (`assets/logo.svg`), `rules` (`.cursor/rules/refract-guardrails.mdc`), `skills` (`skills/`), and `agents` (`agents/`).
+
 ---
 
 ## 6. First Release Notes Template (`v0.1.0`)
 
 ```bash
-git tag -a v0.1.0 -m "Refract v0.1.0 — Dual-provider Claude Code & Antigravity release"
+git tag -a v0.1.0 -m "Refract v0.1.0 — Multi-provider release"
 git push origin v0.1.0
 ```
 
 Highlight in the GitHub Release:
 - **Zero-dependency Node ESM** pipeline powered by `playwright-cli`
-- **Dual-provider support** for Claude Code (`.claude-plugin/plugin.json`) and Antigravity (`.antigravity-plugin/plugin.json`)
+- **Multi-provider support** for Claude Code (`.claude-plugin/plugin.json`), Antigravity (`.antigravity-plugin/plugin.json`), Codex (`.codex-plugin/plugin.json`), and Cursor (`.cursor-plugin/plugin.json` + `.cursor/rules/refract-guardrails.mdc`)
 - **7 validated artifacts** per capture: `tokens.dtcg.json`, `tokens.css`, `tailwind.theme.css`, `tailwind.config.mjs`, `ui-ontology.yaml`, `ui-ontology.json`, `DESIGN.md`
+
+---
+
+## 7. Publishing the GitHub Wiki
+
+Ready-to-publish GitHub Wiki pages live under [`wiki/`](../wiki/Home.md). Once the GitHub Wiki feature is enabled and initialized (with at least one placeholder page created in the GitHub UI):
+
+```bash
+git clone https://github.com/tammai/refract.wiki.git /tmp/refract-wiki
+cp wiki/*.md /tmp/refract-wiki/
+cd /tmp/refract-wiki
+git add -A
+git commit -m "docs: publish Refract wiki pages"
+git push origin master
+```

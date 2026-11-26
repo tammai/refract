@@ -32,13 +32,42 @@ jobs:
             const fs = require("node:fs");
             const agy = JSON.parse(fs.readFileSync(".antigravity-plugin/plugin.json", "utf8"));
             const claude = JSON.parse(fs.readFileSync(".claude-plugin/plugin.json", "utf8"));
-            if (agy.name !== "refract" || claude.name !== "refract") {
-              throw new Error("Manifest name mismatch");
+            const codex = JSON.parse(fs.readFileSync(".codex-plugin/plugin.json", "utf8"));
+            const cursor = JSON.parse(fs.readFileSync(".cursor-plugin/plugin.json", "utf8"));
+            for (const [label, m] of [["antigravity", agy], ["claude", claude], ["codex", codex], ["cursor", cursor]]) {
+              if (m.name !== "refract") {
+                throw new Error(`Manifest name mismatch in ${label}: ${m.name}`);
+              }
+              if (m.version !== agy.version) {
+                throw new Error(`Manifest version mismatch in ${label}: ${m.version}`);
+              }
             }
-            if (!fs.existsSync(agy.logo)) {
-              throw new Error("Missing Antigravity logo: " + agy.logo);
+            const paths = [
+              agy.logo,
+              codex.skills,
+              codex.interface.logo,
+              codex.interface.composerIcon,
+              cursor.logo,
+              cursor.rules,
+              cursor.skills,
+              cursor.agents
+            ];
+            for (const p of paths) {
+              if (!fs.existsSync(p)) {
+                throw new Error("Missing referenced manifest path: " + p);
+              }
             }
-            console.log("Manifests OK:", agy.name, agy.version);
+            if (!codex.interface.shortDescription || codex.interface.shortDescription.length > 30) {
+              throw new Error("Codex interface.shortDescription must be 1..30 chars");
+            }
+            if (!Array.isArray(codex.interface.defaultPrompt) || codex.interface.defaultPrompt.length === 0 || codex.interface.defaultPrompt.length > 3) {
+              throw new Error("Codex interface.defaultPrompt must be an array of 1..3 items");
+            }
+            const mdc = fs.readFileSync(".cursor/rules/refract-guardrails.mdc", "utf8");
+            if (!/^---\n[\s\S]*?description:[\s\S]*?alwaysApply:\s*(true|false)\n---/m.test(mdc)) {
+              throw new Error("Invalid frontmatter in .cursor/rules/refract-guardrails.mdc");
+            }
+            console.log("Manifests & Cursor .mdc OK:", agy.name, agy.version);
           '
 
       - name: Smoke test compile-artifacts.mjs and validate-artifacts.mjs

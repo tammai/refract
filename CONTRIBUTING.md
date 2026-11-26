@@ -12,7 +12,7 @@ Thank you for helping improve **Refract**! Contributions to extraction heuristic
 
 1. **Zero external runtime dependencies**: Keep all scripts under `skills/extract-referent/scripts/` pure Node.js built-ins (`node:*`) and browser-standard DOM/CSSOM APIs.
 2. **Evidence-first extraction**: Never fabricate design tokens, contrast ratios, breakpoints, or component states. Ensure `compile-artifacts.mjs` emits only measured values or explicitly tagged `inferred` metadata.
-3. **Dual-provider parity**: Keep shared components (`skills/`, `agents/`, `assets/`) compatible with both `.claude-plugin/plugin.json` and `.antigravity-plugin/plugin.json`. Use `${CLAUDE_PLUGIN_ROOT}` alongside relative paths where scripts are invoked.
+3. **Multi-provider parity**: Keep shared components (`skills/`, `agents/`, `assets/`) compatible with `.claude-plugin/plugin.json`, `.antigravity-plugin/plugin.json`, `.codex-plugin/plugin.json`, and `.cursor-plugin/plugin.json` (plus `.cursor/rules/refract-guardrails.mdc` for Cursor and `rules/AGENTS.md` for Antigravity). Use `${CLAUDE_PLUGIN_ROOT}` alongside relative paths where scripts are invoked.
 4. **Preserve executable bits**: Ensure scripts in `skills/extract-referent/scripts/` remain executable (`chmod 0755`).
 
 ## Validation Checklist Before Opening a PR
@@ -32,6 +32,16 @@ claude plugin validate --strict --profile directory .
 
 # 3. Validate Antigravity plugin manifest & components
 agy plugin validate --strict .
+
+# 4. Validate all 4 provider manifests & Cursor .mdc rule
+node -e '
+  const fs = require("node:fs");
+  for (const p of [".antigravity-plugin/plugin.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json", ".cursor-plugin/plugin.json"]) {
+    const m = JSON.parse(fs.readFileSync(p, "utf8"));
+    if (m.name !== "refract") throw new Error("Unexpected name in " + p);
+  }
+  console.log("All 4 provider manifests OK");
+'
 ```
 
 If you modified `compile-artifacts.mjs`, `browser-probe.js`, or `validate-artifacts.mjs`, also run an end-to-end capture against a local or public URL with `--compile` and confirm `validate-artifacts.mjs` reports all 7 artifacts passing.

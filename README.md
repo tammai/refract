@@ -5,16 +5,18 @@
     <strong>Reverse-engineer any live website into W3C Design Tokens, CSS variables, Tailwind v4/v3 themes, structured UI ontologies, and agent-ready <code>DESIGN.md</code> specs.</strong>
   </p>
   <p>
-    Dual-provider plugin for <strong>Claude Code</strong> and <strong>Antigravity</strong> &mdash; plus a zero-dependency Node.js CLI.
+    Multi-provider plugin for <strong>Claude Code</strong>, <strong>Antigravity</strong>, <strong>Codex</strong>, and <strong>Cursor</strong> &mdash; plus a zero-dependency Node.js CLI.
   </p>
 
   <p>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License" /></a>
-    <img src="https://img.shields.io/badge/node-%3E%3D18-339933.svg" alt="Node.js >= 18" />
-    <img src="https://img.shields.io/badge/dependencies-0%20npm-10B981.svg" alt="Zero npm dependencies" />
-    <img src="https://img.shields.io/badge/Claude%20Code-supported-D97706.svg" alt="Claude Code supported" />
-    <img src="https://img.shields.io/badge/Antigravity-supported-6366F1.svg" alt="Antigravity supported" />
-    <img src="https://img.shields.io/badge/W3C-DTCG-06B6D4.svg" alt="W3C DTCG" />
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License" height="20" /></a>
+    <a href="#prerequisites"><img src="https://img.shields.io/badge/node-%3E%3D18-339933.svg" alt="Node.js >= 18" height="20" /></a>
+    <a href="#prerequisites"><img src="https://img.shields.io/badge/dependencies-0%20npm-10B981.svg" alt="Zero npm dependencies" height="20" /></a>
+    <a href="#claude-code"><img src="https://img.shields.io/badge/Claude%20Code-supported-D97706.svg" alt="Claude Code supported" height="20" /></a>
+    <a href="#antigravity"><img src="https://img.shields.io/badge/Antigravity-supported-6366F1.svg" alt="Antigravity supported" height="20" /></a>
+    <a href="#codex"><img src="https://img.shields.io/badge/Codex-supported-10A37F.svg" alt="Codex supported" height="20" /></a>
+    <a href="#cursor"><img src="https://img.shields.io/badge/Cursor-supported-111827.svg" alt="Cursor supported" height="20" /></a>
+    <a href="docs/output-formats.md#1-tokensdtcgjson-w3c-dtcg"><img src="https://img.shields.io/badge/W3C-DTCG-06B6D4.svg" alt="W3C DTCG" height="20" /></a>
   </p>
 </div>
 
@@ -41,7 +43,7 @@ flowchart LR
   RAW --> COMPILE["compile-artifacts.mjs"]
   COMPILE --> OUT["tokens.dtcg.json · tokens.css · tailwind · ui-ontology · DESIGN.md"]
   OUT --> VAL["validate-artifacts.mjs"]
-  VAL --> AGENT["Claude Code / Antigravity Visual & Semantic Refinement"]
+  VAL --> AGENT["Agent Visual & Semantic Refinement"]
 ```
 
 ---
@@ -93,6 +95,28 @@ Invoke inside Antigravity:
 - `/extract-referent` or `/audit-ui-ontology`
 - `agy --agent referent-analyst`
 
+### Codex
+
+Install from a Codex marketplace repository (using `.codex-plugin/plugin.json`) or install skills locally into `~/.agents/skills/`:
+
+```bash
+mkdir -p ~/.agents/skills
+ln -s /path/to/refract/skills/extract-referent ~/.agents/skills/extract-referent
+ln -s /path/to/refract/skills/audit-ui-ontology ~/.agents/skills/audit-ui-ontology
+```
+
+Invoke inside Codex:
+- `$extract-referent https://example.com --out ./design-referent`
+- `$audit-ui-ontology ./design-referent`
+
+### Cursor
+
+Install as a Cursor plugin (configured via `.cursor-plugin/plugin.json`), or copy `.cursor/rules/refract-guardrails.mdc` and `skills/` into a project:
+
+- Invoke skills in Agent chat via `/extract-referent` or `/audit-ui-ontology`
+- Delegate to the bundled **`referent-analyst`** agent
+- Guardrails in `.cursor/rules/refract-guardrails.mdc` apply automatically when working with referent extractions or `DESIGN.md`
+
 ### Standalone CLI
 
 Run the full capture + compile + validation pipeline from any terminal:
@@ -123,11 +147,12 @@ Every run produces raw multi-state captures in `raw/` plus **7 validated artifac
 
 ## Documentation & Guides
 
-- [**Getting Started**](docs/getting-started.md) — Setup, CLI flags, and workflows for Claude Code, Antigravity, and standalone CLI
-- [**Architecture**](docs/architecture.md) — Multi-state capture matrix, color clustering, WCAG pairing, and dual-provider layout
+- [**Getting Started**](docs/getting-started.md) — Setup, CLI flags, and workflows for Claude Code, Antigravity, Codex, Cursor, and standalone CLI
+- [**Architecture**](docs/architecture.md) — Multi-state capture matrix, color clustering, WCAG pairing, and multi-provider layout
 - [**Output Formats**](docs/output-formats.md) — Detailed reference and integration snippets for all 7 output artifacts
 - [**Troubleshooting**](docs/troubleshooting.md) — Resolving `PATH`, SPA hydration delays, CORS stylesheets, and alias checks
 - [**GitHub SEO & Launch Guide**](docs/github-seo.md) — Repository topics, About description, `social-preview.svg`, and marketplace checklist
+- [**Wiki**](wiki/Home.md) — Complete multi-page knowledge base (also publishable to [GitHub Wiki](https://github.com/tammai/refract/wiki))
 
 ---
 

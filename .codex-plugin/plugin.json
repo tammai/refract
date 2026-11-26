@@ -1,0 +1,44 @@
+{
+  "name": "refract",
+  "version": "0.2.0",
+  "description": "Extract W3C design tokens, CSS variables, Tailwind themes, structured UI ontologies, and agent-ready DESIGN.md specs from live website referents.",
+  "author": {
+    "name": "Tam Mai",
+    "url": "https://github.com/tammai"
+  },
+  "homepage": "https://github.com/tammai/refract",
+  "repository": "https://github.com/tammai/refract",
+  "license": "MIT",
+  "keywords": [
+    "refract",
+    "design-tokens",
+    "dtcg",
+    "ui-ontology",
+    "design-system",
+    "tailwind",
+    "css",
+    "playwright",
+    "design-engineering",
+    "wcag",
+    "accessibility",
+    "agent-skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Refract",
+    "shortDescription": "Live UI tokens & ontology",
+    "longDescription": "Reverse-engineer any live website into measured W3C DTCG design tokens, CSS custom properties, Tailwind v4/v3 themes, structured UI ontologies, and agent-ready DESIGN.md specs.",
+    "developerName": "Tam Mai",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read"],
+    "websiteURL": "https://github.com/tammai/refract",
+    "defaultPrompt": [
+      "Extract design tokens and UI ontology from https://example.com",
+      "Capture desktop, mobile, light, and dark themes from a reference URL and generate DESIGN.md",
+      "Audit and compare the UI ontology and token system of two live reference websites"
+    ],
+    "brandColor": "#6366F1",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo.svg"
+  }
+}

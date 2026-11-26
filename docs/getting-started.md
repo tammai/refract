@@ -1,6 +1,6 @@
 # Getting Started with Refract
 
-This guide covers installing **Refract**, running your first live referent extraction in **Claude Code**, **Antigravity**, or **Standalone CLI**, and refining the output bundle.
+This guide covers installing **Refract**, running your first live referent extraction in **Claude Code**, **Antigravity**, **Codex**, **Cursor**, or **Standalone CLI**, and refining the output bundle.
 
 ## Prerequisites
 
@@ -13,6 +13,18 @@ Verify both prerequisites:
 node -v
 playwright-cli --version
 ```
+
+---
+
+## Provider Support Matrix
+
+| Provider | Manifest | Skills Invocation | Agent Support | Rules Mechanism | Validation Command |
+| --- | --- | --- | --- | --- | --- |
+| **Claude Code** | `.claude-plugin/plugin.json` | `/refract:extract-referent`, `/refract:audit-ui-ontology` | `referent-analyst` | — | `claude plugin validate --strict .` |
+| **Antigravity** | `.antigravity-plugin/plugin.json` | `/extract-referent`, `/audit-ui-ontology` | `referent-analyst` (`agy --agent referent-analyst`) | `rules/AGENTS.md` (always-on) | `agy plugin validate --strict .` |
+| **Codex** | `.codex-plugin/plugin.json` | `$extract-referent`, `$audit-ui-ontology` | — (skills-driven) | — | JSON + path checks in CI |
+| **Cursor** | `.cursor-plugin/plugin.json` | `/extract-referent`, `/audit-ui-ontology` | `referent-analyst` | `.cursor/rules/refract-guardrails.mdc` (`alwaysApply: false`) | JSON + `.mdc` checks in CI |
+| **Standalone CLI** | — | `node skills/extract-referent/scripts/capture-referent.mjs` | — | — | `node skills/extract-referent/scripts/validate-artifacts.mjs` |
 
 ---
 
@@ -68,7 +80,53 @@ agy plugin install /path/to/refract
 
 ---
 
-## Option C: Standalone CLI Pipeline
+## Option C: Run with Codex
+
+Refract includes `.codex-plugin/plugin.json` pointing to `skills/` and branded interface metadata for Codex marketplaces.
+
+### Install via Marketplace or Local Skills
+
+If your workspace or team uses a Codex marketplace (`.agents/plugins/marketplace.json`), install `refract` from `/plugins` or the Codex plugin directory.
+
+For direct local use without a marketplace, symlink the skills into `~/.agents/skills/` (global) or `.agents/skills/` (project-local):
+
+```bash
+mkdir -p ~/.agents/skills
+ln -s /path/to/refract/skills/extract-referent ~/.agents/skills/extract-referent
+ln -s /path/to/refract/skills/audit-ui-ontology ~/.agents/skills/audit-ui-ontology
+```
+
+### Invoke Skills
+
+- Extract from a live URL:
+  ```text
+  $extract-referent https://example.com --out ./design-referent
+  ```
+- Audit or compare existing extractions:
+  ```text
+  $audit-ui-ontology ./design-referent
+  ```
+
+---
+
+## Option D: Run with Cursor
+
+Refract ships a native Cursor plugin manifest at `.cursor-plugin/plugin.json` that wires `skills/`, `agents/`, and `.cursor/rules/refract-guardrails.mdc`.
+
+### Install as a Cursor Plugin or Copy Into a Workspace
+
+- **Cursor Marketplace / Team Plugin**: Add or install the repository as a Cursor plugin via `.cursor-plugin/plugin.json`.
+- **Project-local copy**: Copy `.cursor/rules/refract-guardrails.mdc` into your project's `.cursor/rules/` directory and `skills/` into `.cursor/skills/` (or `.agents/skills/`).
+
+### Invoke Skills, Rules & Agent
+
+- Trigger `/extract-referent` or `/audit-ui-ontology` in Cursor Agent chat.
+- Delegate full extraction and review workflows to the **`referent-analyst`** subagent (`agents/referent-analyst.md`).
+- `.cursor/rules/refract-guardrails.mdc` uses `alwaysApply: false` with a semantic `description` so Cursor activates the extraction guardrails intelligently when working on tokens, ontologies, or `DESIGN.md`.
+
+---
+
+## Option E: Standalone CLI Pipeline
 
 You can run the deterministic capture, compilation, and validation scripts directly without any AI host:
 

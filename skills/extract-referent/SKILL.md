@@ -49,7 +49,7 @@ This produces `<out-dir>/raw/` (`capture.json`, `*.png`, `*.snapshot.yaml`) plus
 ## 2. Inspect Captured Visuals & Raw Measurements
 
 Before editing any compiled output, inspect:
-1. `<out-dir>/raw/desktop-light.png` (and `desktop-dark.png`, `mobile-light.png` if present) using your file-reading tool (`Read` in Claude Code / `read_file` in Antigravity) to verify visual hierarchy, surface layering, typography tone, and responsive shifts.
+1. `<out-dir>/raw/desktop-light.png` (and `desktop-dark.png`, `mobile-light.png` if present) using your file-reading tool (`Read` in Claude Code / Cursor, `read_file` in Antigravity, or your agent's file/image viewer in Codex) to verify visual hierarchy, surface layering, typography tone, and responsive shifts.
 2. `<out-dir>/raw/desktop-light.snapshot.yaml` for accessibility roles, landmarks, and element boxes.
 3. `<out-dir>/raw/capture.json` for declared CSS custom properties, `@font-face` rules, breakpoints, computed color/type/spacing frequencies, and hover/focus deltas.
 
